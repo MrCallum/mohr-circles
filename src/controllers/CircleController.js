@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {generateSemiRandomSeries} from './InnerLineGenerator';
-import MohrCircle from './MohrCircle';
+import {generateSemiRandomSeries} from '../MohrCircles/InnerLineGenerator';
+import MohrCircle from '../MohrCircles/MohrCircle';
 
 const CircleController = () => {
     const minHeightWidth = 100;
@@ -10,7 +10,7 @@ const CircleController = () => {
     const [noOfPoints, setNoOfPoints] = useState(10);
     const [circleHeightWidth, setCircleHeightWidth] = useState(Math.floor(maxHeightWidth / 4));
     const [padding, setpadding] = useState((circleHeightWidth * paddingMultiplier).toFixed(2));
-    const [noOfCircles, setNoOfCircles] = useState(1);
+    const [noOfCircles, setNoOfCircles] = useState(6);
 
     const handleCircleHeightChange = e => {
         setCircleHeightWidth(e.target.value)
@@ -48,6 +48,12 @@ const CircleController = () => {
             key={i}/>);
     }
 
+    const circleHolderStyle = {
+        display : "flex",
+        flexDirection: "row",
+        flexWrap : "wrap",
+        justifyContent: "center"
+    }
 
     return (
         <div>
@@ -83,7 +89,7 @@ const CircleController = () => {
             </label>
             
             <br />
-            <div>
+            <div style={circleHolderStyle}>
                 {circlesArray}
 
             </div>

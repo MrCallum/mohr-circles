@@ -17,6 +17,12 @@ const MohrCircle = props => {
     return (
         <svg width={props.canvasWidthHeight} height={props.canvasWidthHeight} version="1.1" xmlns="http://www.w3.org/2000/svg">
             <rect width="100%" height="100%" fill="white"/>
+            {/* <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{stopColor:"rgb(255,255,0)",stopOpacity:1}} />
+                <stop offset="100%" style={{stopColor:"rgb(255,0,0)", stopOpacity:1}} />
+                </linearGradient>
+            </defs> */}
             <circle 
                 cx={(props.circleHeightWidth/2) + props.padding/2} 
                 cy={(props.circleHeightWidth/2) + props.padding/2} 
