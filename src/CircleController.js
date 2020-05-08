@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {lineCoordGenerator} from './InnerLineGenerator';
+import {lineCoordGenerator, generateSemiRandomSeries} from './InnerLineGenerator';
 
 const CircleController = () => {
     const minHeightWidth = 100;
@@ -7,7 +7,7 @@ const CircleController = () => {
     const paddingMultiplier = 0.1;
 
     const [noOfPoints, setNoOfPoints] = useState(10);
-    const [circleHeightWidth, setCircleHeightWidth] = useState(Math.floor((maxHeightWidth - minHeightWidth)/2));
+    const [circleHeightWidth, setCircleHeightWidth] = useState(Math.floor(maxHeightWidth));
     const [padding, setpadding] = useState((minHeightWidth * paddingMultiplier).toFixed(2));
 
     const handleCircleHeightChange = e => {
@@ -19,7 +19,8 @@ const CircleController = () => {
 
     
     
-    const listOfCoords = lineCoordGenerator(circleHeightWidth - (padding/2), noOfPoints);
+    // const listOfCoords = lineCoordGenerator(circleHeightWidth , noOfPoints);
+    const listOfCoords = generateSemiRandomSeries(circleHeightWidth , noOfPoints);
 
     // need to add padding to each coord
     const paddedCoords = listOfCoords.map(el => {
@@ -50,14 +51,14 @@ const CircleController = () => {
                 Number of points:
                 <input 
                     type="range" name="width" 
-                    min={10} max={2000} 
+                    min={2} max={15} 
                     value={noOfPoints} 
                     onChange={handleNoOfPointsChange}/>
                 <input 
                     type="number" name="width" 
-                    min={10} max={2000} 
+                    min={2} max={50} 
                     value={noOfPoints} 
-                    onChange={handleNoOfPointsChange}/>/>
+                    onChange={handleNoOfPointsChange}/>
             </label>
             
             <br />
@@ -69,7 +70,7 @@ const CircleController = () => {
                     r={(circleHeightWidth / 2) - (padding/2)} 
                     stroke="black" strokeWidth="10" fill="none"/>
                 <polyline 
-                    stroke="black" fill="transparent" strokeWidth="2"
+                    stroke="black" fill="transparent" strokeWidth="4"
                     points={stringListOfCoords}/>
             </svg>
 
