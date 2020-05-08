@@ -29,7 +29,7 @@ const CircleController = () => {
 
 
     const stringListOfCoords = paddedCoords.flat(1).join(" ")
-    console.log("string list of coords: ", stringListOfCoords);
+    // console.log("string list of coords: ", stringListOfCoords);
     
     
     
