@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {lineCoordGenerator, generateSemiRandomSeries} from './InnerLineGenerator';
+import {generateSemiRandomSeries} from './InnerLineGenerator';
 
 const CircleController = () => {
     const minHeightWidth = 100;
@@ -56,7 +56,7 @@ const CircleController = () => {
                     onChange={handleNoOfPointsChange}/>
                 <input 
                     type="number" name="width" 
-                    min={2} max={50} 
+                    min={2} max={5000} 
                     value={noOfPoints} 
                     onChange={handleNoOfPointsChange}/>
             </label>
@@ -68,9 +68,9 @@ const CircleController = () => {
                     cx={circleHeightWidth/2} 
                     cy={circleHeightWidth/2} 
                     r={(circleHeightWidth / 2) - (padding/2)} 
-                    stroke="black" strokeWidth="10" fill="none"/>
+                    stroke="red" strokeWidth="1" fill="none"/>
                 <polyline 
-                    stroke="black" fill="transparent" strokeWidth="4"
+                    stroke="black" fill="transparent" strokeWidth="1"
                     points={stringListOfCoords}/>
             </svg>
 
