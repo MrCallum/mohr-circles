@@ -97,10 +97,12 @@ export const generateSemiRandomSeries = (circleDiameter, noOfPointsRequired, sta
     while(listOfCoords.length < noOfPointsRequired){
         let newPotentialPoint = generateSemiRandomPoint(circleDiameter, listOfCoords[listOfCoords.length -1], lastAngle);
       
-        lastAngle = newPotentialPoint.angle;
-
+        
         if(checkIfPointIsInCircle(circleDiameter, newPotentialPoint.newCoord)){
             listOfCoords.push(newPotentialPoint.newCoord);
+            lastAngle = newPotentialPoint.angle;
+        } else {
+
         }
     }
 

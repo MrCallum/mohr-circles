@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {generateSemiRandomSeries} from './InnerLineGenerator';
+import MohrCircle from './MohrCircle';
 
 const CircleController = () => {
     const minHeightWidth = 100;
@@ -7,8 +8,9 @@ const CircleController = () => {
     const paddingMultiplier = 0.25;
 
     const [noOfPoints, setNoOfPoints] = useState(10);
-    const [circleHeightWidth, setCircleHeightWidth] = useState(Math.floor(maxHeightWidth));
+    const [circleHeightWidth, setCircleHeightWidth] = useState(Math.floor(maxHeightWidth / 4));
     const [padding, setpadding] = useState((circleHeightWidth * paddingMultiplier).toFixed(2));
+    const [noOfCircles, setNoOfCircles] = useState(1);
 
     const handleCircleHeightChange = e => {
         setCircleHeightWidth(e.target.value)
@@ -16,6 +18,8 @@ const CircleController = () => {
     };
 
     const handleNoOfPointsChange = e => setNoOfPoints(e.target.value);
+    const handleNoOfCirclesChange = e => setNoOfCircles(e.target.value);
+
 
     
     
@@ -33,6 +37,17 @@ const CircleController = () => {
     
     let canvasWidthHeight = +circleHeightWidth + +padding;
     
+    let circlesArray = [];
+    circlesArray.fill();
+    for(let i = 0; i < noOfCircles; i++){
+        circlesArray.push(<MohrCircle 
+            canvasWidthHeight={canvasWidthHeight} 
+            circleHeightWidth={circleHeightWidth} 
+            padding={padding} 
+            noOfPoints={noOfPoints} 
+            key={i}/>);
+    }
+
 
     return (
         <div>
@@ -50,26 +65,31 @@ const CircleController = () => {
             <label>
                 Number of points:
                 <input 
-                    type="range" name="width" 
+                    type="range" name="points" 
                     min={3} max={15} 
                     value={noOfPoints} 
                     onChange={handleNoOfPointsChange}/>
                 <span>{noOfPoints}</span>
             </label>
+            <br />
+            <label>
+                Number of Mohr Circles:
+                <input 
+                    type="range" name="circles" 
+                    min={1} max={100} 
+                    value={noOfCircles} 
+                    onChange={handleNoOfCirclesChange}/>
+                <span>{noOfCircles}</span>
+            </label>
             
             <br />
-            <svg width={canvasWidthHeight} height={canvasWidthHeight} version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100%" height="100%" fill="white"/>
-                <circle 
-                    cx={(circleHeightWidth/2) + padding/2} 
-                    cy={(circleHeightWidth/2) + padding/2} 
-                    r={(circleHeightWidth / 2)} 
-                    stroke="black" strokeWidth="4" fill="none"/>
-                <polyline 
-                    stroke="black" fill="transparent" strokeWidth="4"
-                    points={stringListOfCoords}/>
-            </svg>
+            <div>
+                {circlesArray}
 
+            </div>
+
+           
+            
         </div>
     )
 }
