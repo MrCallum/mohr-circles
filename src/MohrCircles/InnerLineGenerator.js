@@ -35,7 +35,7 @@ const generateValidAngle= lastAngle => {
     return possibleAngles[Math.floor(Math.random() * possibleAngles.length)];
 }
 
-const generateSemiRandomPoint= (circleDiameter, prevCoord, lastAngle) => {
+const generateSemiRandomPoint= (circleDiameter, prevCoord, lastAngle, distanceToMove) => {
     // this function returns one new point based on the previous point
 
     // old system was to just generate a random series of points.
@@ -46,7 +46,10 @@ const generateSemiRandomPoint= (circleDiameter, prevCoord, lastAngle) => {
 
 
     // let randomDistanceToAdd = (Math.random() * (circleDiameter * 0.9)).toFixed(2);
-    let randomDistanceToAdd = 50
+    let distanceToAdd = 50;
+    if(distanceToMove){
+        distanceToAdd = (circleDiameter * (distanceToMove / 100)).toFixed(2);
+    }
 
     // diagonal angles vs vert/horizontal angles will require different coordIsOk checks
     let diagonal = angle % 90 !== 0;
@@ -54,18 +57,18 @@ const generateSemiRandomPoint= (circleDiameter, prevCoord, lastAngle) => {
     let newCoord = [...prevCoord];
     if(!diagonal){
         if(angle === 0){
-            newCoord[1] = newCoord[1] + randomDistanceToAdd;
+            newCoord[1] = newCoord[1] + distanceToAdd;
         } else if(angle === 90) {
-            newCoord[0] = newCoord[0] + randomDistanceToAdd;
+            newCoord[0] = newCoord[0] + distanceToAdd;
         } else if(angle === 180) {
-            newCoord[1] = newCoord[1] - randomDistanceToAdd;
+            newCoord[1] = newCoord[1] - distanceToAdd;
         } else {
-            newCoord[0] = newCoord[0] - randomDistanceToAdd;
+            newCoord[0] = newCoord[0] - distanceToAdd;
         }
     }
 
     if(diagonal){
-        let adjustedRanDist = Math.sqrt((randomDistanceToAdd ** 2) / 2);
+        let adjustedRanDist = Math.sqrt((distanceToAdd ** 2) / 2);
 
         if(angle === 45 || angle === 135){
             newCoord[0] = newCoord[0] + adjustedRanDist;
@@ -86,23 +89,35 @@ const generateSemiRandomPoint= (circleDiameter, prevCoord, lastAngle) => {
 }
 
 
-export const generateSemiRandomSeries = (circleDiameter, noOfPointsRequired, startingPoint) => {
-    if(!startingPoint){
-        startingPoint = generateRandomPoint(circleDiameter);
-    }
+export const generateSemiRandomSeries = (circleDiameter, noOfPointsRequired, startInCentre, distanceToMove) => {
+
+    let startingPoint = startInCentre ? [circleDiameter/2, circleDiameter/2] : generateRandomPoint(circleDiameter);
+    
 
     let listOfCoords = [startingPoint];
     let lastAngle = -1;
+    let noofAttempts = 0;
+    let stoppingEarly = false
 
-    while(listOfCoords.length < noOfPointsRequired){
-        let newPotentialPoint = generateSemiRandomPoint(circleDiameter, listOfCoords[listOfCoords.length -1], lastAngle);
+    while(listOfCoords.length < noOfPointsRequired && !stoppingEarly){
+        let newPotentialPoint = generateSemiRandomPoint(circleDiameter, listOfCoords[listOfCoords.length -1], lastAngle, distanceToMove);
       
         
         if(checkIfPointIsInCircle(circleDiameter, newPotentialPoint.newCoord)){
             listOfCoords.push(newPotentialPoint.newCoord);
             lastAngle = newPotentialPoint.angle;
+            noofAttempts= 0;
         } else {
-
+            if(noofAttempts > 500){
+                stoppingEarly = true;
+                console.log("Tried 100 times, stopping early");
+                // console.log("Tried 100 times, have to use this coord");
+                // listOfCoords.push(newPotentialPoint.newCoord);
+                // lastAngle = newPotentialPoint.angle;
+                // noofAttempts= 0;
+            } else {
+                noofAttempts++;
+            }
         }
     }
 

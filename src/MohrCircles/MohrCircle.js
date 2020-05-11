@@ -3,17 +3,14 @@ import {generateSemiRandomSeries} from './InnerLineGenerator';
 import { connect } from 'react-redux';
 
 const MohrCircle = props => {  
-    // const listOfCoords = lineCoordGenerator(circleHeightWidth , noOfPoints);
-    const listOfCoords = generateSemiRandomSeries(props.circleHiWi , props.noOfPoints);
 
-    // need to add padding to each coord
+    const listOfCoords = generateSemiRandomSeries(props.circleHiWi , props.noOfPoints, props.centreStart, props.lineMovePercent);
+
     const paddedCoords = listOfCoords.map(el => {
         return [el[0] + (props.padding / 2), el[1] + (props.padding / 2)]
     });
 
-
-    const stringListOfCoords = paddedCoords.flat(1).join(" ")
-    // console.log("string list of coords: ", stringListOfCoords);
+    const stringListOfCoords = paddedCoords.flat(1).join(" ");
 
     return (
         <>
@@ -25,6 +22,10 @@ const MohrCircle = props => {
                     <stop offset="100%" style={{stopColor:"rgb(255,0,0)", stopOpacity:1}} />
                     </linearGradient>
                 </defs> */}
+                <rect 
+                    width="10" height="10"
+                    stroke="red" fill="red"
+                    x={paddedCoords[0][0]-5} y={paddedCoords[0][1]-5}/>
                 <circle 
                     cx={(props.circleHiWi/2) + props.padding/2} 
                     cy={(props.circleHiWi/2) + props.padding/2} 
@@ -35,7 +36,6 @@ const MohrCircle = props => {
                     strokeLinejoin="round"
                     points={stringListOfCoords}/>
             </svg>
-            <br/>
         </>
     );
 
@@ -44,7 +44,10 @@ const MohrCircle = props => {
 const mapStateToProps = state => {
     return {
         circleHiWi : state.circleWidthHeight,
-        padding : state.padding
+        padding : state.padding,
+        noOfPoints : state.noOfPoints,
+        centreStart : state.startInCentre,
+        lineMovePercent : state.lineMovePercent
     }
 }
 

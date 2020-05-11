@@ -1,58 +1,21 @@
-import React, { useState } from 'react';
-import {generateSemiRandomSeries} from '../MohrCircles/InnerLineGenerator';
-import MohrCircle from '../MohrCircles/MohrCircle';
+import React from 'react';
 import { connect } from 'react-redux';
 
 const CircleController = props => {
     const minHeightWidth = 100, maxHeightWidth = 500;
     const paddingMultiplier = 0.25;
 
-    const [noOfPoints, setNoOfPoints] = useState(10);
-    const [noOfCircles, setNoOfCircles] = useState(6);
-
     const handleCircleHeightChange = e => {
         props.onChangeCircleDiam(e.target.value);
         props.onChangeCirclePadding((e.target.value * paddingMultiplier).toFixed(2));
     };
 
-    const handleNoOfPointsChange = e => setNoOfPoints(e.target.value);
-    const handleNoOfCirclesChange = e => setNoOfCircles(e.target.value);
+    const handleNoOfCirclesChange = e => props.onChangeCircleCount(e.target.value);
 
-
-    
-    
-    // const listOfCoords = lineCoordGenerator(circleHeightWidth , noOfPoints);
-    const listOfCoords = generateSemiRandomSeries(props.circleDiam , noOfPoints);
-
-    // need to add padding to each coord
-    const paddedCoords = listOfCoords.map(el => {
-        return [el[0] + (props.circlePad / 2), el[1] + (props.circlePad / 2)]
-    });
-
-    
-    let canvasWidthHeight = +props.circleDiam + +props.circlePad;
-    
-    let circlesArray = [];
-    circlesArray.fill();
-    for(let i = 0; i < noOfCircles; i++){
-        circlesArray.push(
-            <MohrCircle 
-                canvasWidthHeight={canvasWidthHeight} 
-                padding={props.circlePad} 
-                noOfPoints={noOfPoints} 
-                key={i}/>);
-    }
-
-    const circleHolderStyle = {
-        display : "flex",
-        flexDirection: "row",
-        flexWrap : "wrap",
-        justifyContent: "center"
-    }
 
     return (
-        <div>
-            <p>Padding: {props.circlePad}</p>
+        <div style={{border : "1px solid gray", margin : "0 20%"}}>
+            <h3>Circle Controller</h3>
             <label>
                 Circle dimensions:
                 <input 
@@ -64,47 +27,34 @@ const CircleController = props => {
             </label>
             <br />
             <label>
-                Number of points:
-                <input 
-                    type="range" name="points" 
-                    min={3} max={15} 
-                    value={noOfPoints} 
-                    onChange={handleNoOfPointsChange}/>
-                <span>{noOfPoints}</span>
-            </label>
-            <br />
-            <label>
                 Number of Mohr Circles:
                 <input 
-                    type="range" name="circles" 
+                    type="number" name="circles" 
                     min={1} max={100} 
-                    value={noOfCircles} 
+                    value={props.circleCount} 
                     onChange={handleNoOfCirclesChange}/>
-                <span>{noOfCircles}</span>
+                <span>{props.circleCount}</span>
             </label>
-            
-            <br />
-            <div style={circleHolderStyle}>
-                {circlesArray}
-
-            </div>
-           
-            
+            <p>padding %(slider)</p>
+            <p>circle stroke width (slider)</p>
+            <p>circle stroke colour(picker)</p>
         </div>
     )
 }
 
-const mapStateToProps = props => {
+const mapStateToProps = state => {
     return {
-        circleDiam : props.circleWidthHeight,
-        circlePad : props.padding
+        circleDiam : state.circleWidthHeight,
+        circlePad : state.padding,
+        circleCount : state.circleCount
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onChangeCircleDiam : (newDiam) => dispatch({ type: 'CHANGE_CIRCLE_DIAMETER', newDiam}),
-        onChangeCirclePadding : (newPadding) => dispatch({ type: 'CHANGE_CIRCLE_PADDING', newPadding})
+        onChangeCirclePadding : (newPadding) => dispatch({ type: 'CHANGE_CIRCLE_PADDING', newPadding}),
+        onChangeCircleCount : (newCircleCount) => dispatch({ type : 'CHANGE_CIRCLE_COUNT', newCircleCount})
     }
 }
 
