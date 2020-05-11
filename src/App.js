@@ -5,6 +5,8 @@ import LineController from './controllers/LineController';
 import CircleRenderer from './MohrCircles/CircleRenderer';
 import {AdditionalOptions} from './controllers/AdditionalOptions';
 
+import SteppedCircleRenderer from './MohrCircles/SteppedCircleRenderer';
+
 function App() {
   
 
@@ -15,8 +17,9 @@ function App() {
         <h1>Mohr Circles</h1>
         <LineController />
         <CircleController />
-        <AdditionalOptions />
-        <CircleRenderer />
+        {/* <AdditionalOptions />
+        <CircleRenderer /> */}
+        <SteppedCircleRenderer />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 const initialState = {
-    circleWidthHeight : 100,
+    circleWidthHeight : 400,
     padding : 25,
     noOfPoints : 10,
     circleCount : 5,

@@ -15,7 +15,7 @@ const LineController = props => {
                 <br />
                 <input 
                     type="range" name="points" 
-                    min={3} max={15} 
+                    min={3} max={1500} 
                     value={props.noOfPoints} 
                     onChange={handleNoOfPointsChange}/>
                 <span>{props.noOfPoints}</span>

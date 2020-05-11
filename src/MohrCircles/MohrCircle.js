@@ -5,12 +5,21 @@ import { connect } from 'react-redux';
 const MohrCircle = props => {  
 
     const listOfCoords = generateSemiRandomSeries(props.circleHiWi , props.noOfPoints, props.centreStart, props.lineMovePercent);
-
+    
     const paddedCoords = listOfCoords.map(el => {
         return [el[0] + (props.padding / 2), el[1] + (props.padding / 2)]
     });
+    
+    const niceDisplay = paddedCoords.map( el => {
+        return [el[0].toFixed(0), el[1].toFixed(0)]
+    })
 
+    const circleColour = listOfCoords.length < props.noOfPoints ? "blue" : "black";
+
+
+    
     const stringListOfCoords = paddedCoords.flat(1).join(" ");
+
 
     return (
         <>
@@ -30,12 +39,13 @@ const MohrCircle = props => {
                     cx={(props.circleHiWi/2) + props.padding/2} 
                     cy={(props.circleHiWi/2) + props.padding/2} 
                     r={(props.circleHiWi / 2)} 
-                    stroke="black" strokeWidth="4" fill="none"/>
+                    stroke={circleColour} strokeWidth="4" fill="none"/>
                 <polyline 
                     stroke="black" fill="transparent" strokeWidth="4"
                     strokeLinejoin="round"
                     points={stringListOfCoords}/>
             </svg>
+            <p>{JSON.stringify(niceDisplay)}</p>
         </>
     );
 
