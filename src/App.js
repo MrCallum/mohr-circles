@@ -4,8 +4,7 @@ import CircleController from './controllers/CircleController';
 import LineController from './controllers/LineController';
 import CircleRenderer from './MohrCircles/CircleRenderer';
 import {AdditionalOptions} from './controllers/AdditionalOptions';
-
-import SteppedCircleRenderer from './MohrCircles/SteppedCircleRenderer';
+import SteppedCircleController from './controllers/SteppedCircleController';
 
 function App() {
   
@@ -19,7 +18,8 @@ function App() {
         <CircleController />
         {/* <AdditionalOptions />
         <CircleRenderer /> */}
-        <SteppedCircleRenderer />
+        <SteppedCircleController />
+
     </div>
   );
 }

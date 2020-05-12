@@ -3,7 +3,10 @@
 
 
 
-const generateStartingCoord = (circleDiam) => {
+const generateStartingCoord = (circleDiam, startInCentre = false) => {
+    if(startInCentre){
+        return [circleDiam/2, circleDiam/2];
+    }
     let isInsideRadius = false;
     let xCoord, yCoord;
 
@@ -85,12 +88,85 @@ const checkInsideCircle = (circleDiam, pointToCheck) => {
     return ((pointToCheck[0] - circleDiam/2)**2 + (pointToCheck[1] - circleDiam/2)**2) <= (circleDiam/2)**2;
 }
 
-const getValidNewPoint = () => {
+const calculateLastAngle = (lastCoord, secondLastCoord) => {
+    const xDif = lastCoord[0] - secondLastCoord[0]; // positive means moving east
+    const yDif = lastCoord[1] - secondLastCoord[1]; // positive means moving south
 
+    let angle = null;
+
+    if(xDif === 0){
+        angle = yDif < 0 ? 0 : 180;
+    } else if (yDif === 0){ // YDIF now
+        angle = xDif < 0 ? 270 : 90
+    } else if (xDif > 0){
+        angle = yDif < 0 ? 45 : 135;
+    } else {
+        angle = yDif < 0 ? 315 : 225;
+    }
+
+    return angle;
 }
 
-const addPointToList = () => {
+const newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
+    // this function gives you back a coord when you feed it the previous coord (+some info)
+    if(!lastAngle || !circleDiam || !moveAmount){
+        console.log(`Did not supply either move amount ${moveAmount}, circle diam ${circleDiam}, or lastAngle${lastAngle}`)
+    }
     
+    if(moveAmount >= circleDiam / 2){
+        console.log("Warning, move amount is too high, line won't work");
+        return null;
+    }
+
+    let triedAngles = [];
+    let validCoord = false;
+
+    while(!validCoord){
+        let possAnglesArray = possibleAngles(lastAngle, triedAngles);
+
+        if(possAnglesArray.length === 0){
+            // tried all angles, none are suitable for some reason
+            // logError(TODO)
+            return null;
+        }
+
+        let angleToTry = possAnglesArray[Math.floor(Math.random() * possAnglesArray.length)];
+
+        let possCoord = addMovement(lastPoint, moveAmount, angleToTry);
+
+        if(checkInsideCircle(circleDiam, possCoord)){
+            return possCoord;
+        } else {
+            triedAngles.push(angleToTry);
+        }
+    }
+
+    return null; // shouldn't get here, but just in case
+}
+
+const addPointToList = (currentCoordList, circleConfig) => {
+    // this function takes a list of coords (+some config info) and gives you back the same list with one new coord added on.
+    // I hate passing this "last angle" stuff, so last angle is calculated instead from the coord list.
+    // circleConfig = { startInCentre, circleDiam, moveAmount }
+
+    if(circleConfig.moveAmount >= circleConfig.circleDiam / 2){
+        console.log("Move amount is >= radius. Not allowed.");
+        return null;
+    }
+
+    if(currentCoordList.length === 0){
+        // simply return a starting point
+        return [generateStartingCoord(circleConfig.circleDiam, circleConfig.startInCentre)];
+    } else if (currentCoordList.length === 1){
+        let newPoint = newPointBasedOnLast(currentCoordList[0], -1, circleConfig.circleDiam, circleConfig.moveAmount);
+        return currentCoordList.push(newPoint);
+    }
+
+    const lastCoord = currentCoordList[currentCoordList.length - 1];
+    const lastAngle = calculateLastAngle(lastCoord, currentCoordList[currentCoordList.length - 2]);
+
+    let newPoint = newPointBasedOnLast(lastCoord, lastAngle, circleConfig.circleDiam, circleConfig.moveAmount);
+    return [...currentCoordList, newPoint];
 }
 
 const generateListOfCoords = () => {
@@ -102,3 +178,6 @@ exports.convertMovementDiagonally = convertMovementDiagonally;
 exports.possibleAngles = possibleAngles;
 exports.checkInsideCircle = checkInsideCircle;
 exports.generateStartingCoord = generateStartingCoord;
+exports.addPointToList = addPointToList;
+exports.newPointBasedOnLast = newPointBasedOnLast;
+exports.calculateLastAngle = calculateLastAngle;

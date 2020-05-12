@@ -130,6 +130,51 @@ describe("Possible angles", ()=> {
   })
 });
 
+describe("calculateLastAngle: Calculate last angle given 2 points", () => {
+  const secondLastPoint = [200, 200];
+
+  it("Should be 0 when last point is [200,150]", () => {
+    const lastPoint = [200,150]
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 0);
+  }); 
+  it("Should be 45 when last point is [235.355,164.645]", () => {
+    const lastPoint = [235.355,164.645];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 45);
+  }); 
+  it("Should be 90 when last point is [250,200]", () => {
+    const lastPoint = [250,200];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 90);
+  }); 
+  it("Should be 135 when last point is [235.355,235.355]", () => {
+    const lastPoint = [235.355,235.355];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 135);
+  }); 
+  it("Should be 180 when last point is [200,250]", () => {
+    const lastPoint = [200,250];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 180);
+  }); 
+  it("Should be 225 when last point is [164.645,235.355]", () => {
+    const lastPoint = [164.645,235.355];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 225);
+  }); 
+  it("Should be 270 when last point is [150,200]", () => {
+    const lastPoint = [150,200];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 270);
+  }); 
+  it("Should be 315 when last point is [164.645,164.645]", () => {
+    const lastPoint = [164.645,164.645];
+    const calculateLastAngle = StepLineGen.calculateLastAngle(lastPoint, secondLastPoint);
+    assert.strictEqual(calculateLastAngle, 315);
+  }); 
+})
+
 describe("Possible coords should be confirmed as inside circle", () => {
   const circleDiam = 400;
 
@@ -172,11 +217,9 @@ describe("Possible coords should be confirmed as inside circle", () => {
 })
 
 describe("Coord placement", () => {
-  describe("Starting coord", () => {
-    it("is valid point inside circle", () => {
+  describe("generateStartingCoord: tests for starting coord generation", () => {
+    it("if 'startInCentre' not specified, is valid random point inside circle", () => {
       let noOfAttempts = 100;
-      console.log(`Testing ${noOfAttempts} times`);
-      
       let numberOfCorrectCases = 0;
       const circleDiam = 400;
 
@@ -188,6 +231,132 @@ describe("Coord placement", () => {
       }
 
       assert.equal(numberOfCorrectCases, noOfAttempts)
+    });
+    it("if 'startInCentre' is specified, returns centre coord", () => {
+      const circleDiam = 400;
+      let coord = StepLineGen.generateStartingCoord(circleDiam, true);
+      assert.deepEqual(coord, [200,200]);
+    });
+  });
+
+ 
+
+  describe("tests for newPointBasedOnLast", () => {
+    // takes: (lastPoint, lastAngle, circleDiam, moveAmount)
+    // returns:  let coordInfo = { coord : null, lastAngle : null, failed : false }
+
+    const lastPoint = [200, 200];
+    const lastAngle = -1;
+    const circleDiam = 400;
+    const moveAmount = 50;
+
+    const newCoord = StepLineGen.newPointBasedOnLast(lastPoint, lastAngle, circleDiam, moveAmount);
+
+    it("returned coord was not null", () => {
+      assert.notEqual(newCoord, null);
+    });
+    it("returned coord had a length of two", () => {
+      assert.equal(newCoord.length, 2);
+    });
+    it("returned coord is not equal to coord fed in", () => {
+      assert.notDeepEqual(newCoord, lastPoint);
+    });
+
+    it("new coord is 50 away from old coord", () => {
+      // vert/hor:               0/360         90         180         270        45                    135                   225                 315         
+      const possibleNewCoords = [[200,150], [250,200], [200,250], [150,200], [235.355, 164.645], [235.355, 235.355], [164.645, 235.355], [164.645, 164.645]];
+      let foundMatch = false;
+
+      for(let i = 0; i < possibleNewCoords.length; i++){
+        if(possibleNewCoords[i][0] === newCoord[0] && possibleNewCoords[i][1] === newCoord[1]){
+          foundMatch = true;
+          break;
+        }
+      }
+
+      assert.equal(foundMatch, true);
     })
   })
-})
+
+
+  describe("Adding coords to coord list", () => {
+
+    describe("Will not add second coord if no possible points", () => {
+      it("will fail as move amount > circle radius", () => {
+        const lastPoint = [200,200];
+        const lastAngle = -1;
+        const circleDiam = 400;
+        const moveAmount = 205;
+  
+        const possibleCoord = StepLineGen.newPointBasedOnLast(lastPoint, lastAngle, circleDiam, moveAmount);
+  
+        assert.equal(possibleCoord, null);
+  
+        // Note: placement fails as there is check RE movement:radius ratio
+        // I think if move < radius, there is never a no-go move
+        // because if you are at 12 oclock, and hit this at 45 deg...
+        // ... 90 allowed, but 180 is allowed
+        // move counter clockwise to 11 o'clock: 180 still viable
+        // you hit 10.30 (NW) where both 90 and 180 are viable.
+        // as you go futher back to 9 o'clock, 180 stops becoming viable, but 90 remains viable
+      });
+    });
+
+    
+    describe("Empty array is given single coord", () => {
+
+      it("single coord will be returned if startInCentre is false", () => {
+        let arrayOfCoords = [];
+        const circleConfig = {
+          circleDiam : 400,
+          startInCentre : false
+        }
+        arrayOfCoords = StepLineGen.addPointToList(arrayOfCoords, circleConfig);
+        assert.equal(arrayOfCoords.length, 1);
+      });
+
+      it("single coord will be centre if 'startInCentre' is true", () => {
+        let arrayOfCoords = [];
+        const circleConfig = {
+          circleDiam : 400,
+          startInCentre : true
+        }
+        arrayOfCoords = StepLineGen.addPointToList(arrayOfCoords, circleConfig);
+        assert.deepEqual(arrayOfCoords[0], [200, 200]);
+      });
+    });
+
+    describe("addPointToList: Will add points to existing list", () => {
+      it("Will add a single point to a list of length 2", () => {
+        // let arrayOfCoords = [[200,200], [200, 250], [200, 300], [200, 350]];
+        let arrayOfCoords = [[200,200], [200, 250]];
+        
+        const circleConfig = {
+          circleDiam : 400,
+          startInCentre : true,
+          moveAmount : 50
+        }
+
+        let newArray = StepLineGen.addPointToList(arrayOfCoords, circleConfig);
+        console.log("New array recievedd back is: ", newArray);
+        assert.equal(newArray.length, 3);
+      });
+
+      it("Will add a 10 points to a list of length 2", () => {
+        // let arrayOfCoords = [[200,200], [200, 250], [200, 300], [200, 350]];
+        let arrayOfCoords = [[200,200], [200, 250]];
+        const circleConfig = {
+          circleDiam : 400,
+          startInCentre : true,
+          moveAmount : 50
+        }
+
+        for(let i = 0; i < 10; i++){
+          arrayOfCoords = StepLineGen.addPointToList(arrayOfCoords, circleConfig);
+        }
+        
+        assert.equal(arrayOfCoords.length, 12);
+      });
+    });
+  });
+});
