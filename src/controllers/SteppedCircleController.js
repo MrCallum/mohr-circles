@@ -8,10 +8,12 @@ const StepLineGen = require('./StepLineGenerator.js');
 */
 
 const SteppedCircleController = props => {
+    // let calcedMoveAmount = ((props.lineMovePercent / 100) * props.circleHiWi).toFixed(2);
+
     const circleConfig = {
         circleDiam : props.circleHiWi,
         startInCentre : props.centreStart,
-        moveAmount : 50
+        moveAmount : props.lineMoveAmount
     }
     
     const [listOfCoords, setListOfCoords] = useState(StepLineGen.addPointToList([], circleConfig));
@@ -96,7 +98,7 @@ const mapStateToProps = state => {
         padding : state.padding,
         noOfPoints : state.noOfPoints,
         centreStart : state.startInCentre,
-        lineMovePercent : state.lineMovePercent
+        lineMoveAmount : state.moveAmount
     }
 }
 

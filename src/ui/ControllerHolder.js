@@ -2,10 +2,13 @@ import React from 'react';
 
 
 const outerHolder = {
+    width : "20%",
+    boxSizing: "border-box",
     position : "absolute",
     backgroundColor : "transparent",
     left : 0,
     top : 0
+    
 }
 
 const gap = {
@@ -14,12 +17,14 @@ const gap = {
 }
 
 const innerHolder = {
+    width : "inherit",
+    boxSizing : "inherit",
     padding : "1%",
-    backgroundColor  : "#EEE",
-    width : "20%",
+    backgroundColor  : "white",
     position : "fixed",
     height  : "90vh",
-    overflowY : "scroll"
+    overflowY : "scroll",
+    borderRight : "1px solid gray"
 }
 
 export const ControllerHolder = props => (

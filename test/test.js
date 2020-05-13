@@ -186,8 +186,6 @@ describe("Possible coords should be confirmed as inside circle", () => {
     it(`${circleDiam} diam circle, ${[100,105]} should be accepted`, () => {
       assert.equal(StepLineGen.checkInsideCircle(circleDiam, [100,105]), true);
     });
-
-
   });
   describe("Outside", () => {
     it(`${circleDiam} diam circle, ${[0,0]} should be rejected`, () => {
@@ -198,6 +196,7 @@ describe("Possible coords should be confirmed as inside circle", () => {
       assert.equal(StepLineGen.checkInsideCircle(circleDiam, [100,95]), true);
     });
   });
+
   describe("On the line", () => {
     it(`${circleDiam} diam circle, ${[0,200]} should be accepted`, () => {
       assert.equal(StepLineGen.checkInsideCircle(circleDiam, [0,200]), true);
@@ -212,6 +211,42 @@ describe("Possible coords should be confirmed as inside circle", () => {
   });
 
  
+  describe("centre start + movement", () => {
+    const startingPoint = [200,200];
+    const movement=  Math.floor((49 / 100) * 400);
+    it("should confirm start + move @ 0 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 0);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 45 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 45);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 90 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 90);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 135 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 135);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 180 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 180);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 225 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 225);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 270 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 270);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+    it("should confirm start + move @ 315 deg is valid", () => {
+      const newCoord = StepLineGen.addMovement(startingPoint, movement, 315);
+      assert.equal(StepLineGen.checkInsideCircle(400, newCoord), true);
+    });
+  })
   
  
 })
@@ -279,26 +314,30 @@ describe("Coord placement", () => {
 
   describe("Adding coords to coord list", () => {
 
-    describe("Will not add second coord if no possible points", () => {
-      it("will fail as move amount > circle radius", () => {
-        const lastPoint = [200,200];
-        const lastAngle = -1;
-        const circleDiam = 400;
-        const moveAmount = 205;
-  
-        const possibleCoord = StepLineGen.newPointBasedOnLast(lastPoint, lastAngle, circleDiam, moveAmount);
-  
-        assert.equal(possibleCoord, null);
-  
-        // Note: placement fails as there is check RE movement:radius ratio
-        // I think if move < radius, there is never a no-go move
-        // because if you are at 12 oclock, and hit this at 45 deg...
-        // ... 90 allowed, but 180 is allowed
-        // move counter clockwise to 11 o'clock: 180 still viable
-        // you hit 10.30 (NW) where both 90 and 180 are viable.
-        // as you go futher back to 9 o'clock, 180 stops becoming viable, but 90 remains viable
-      });
+    it("Will cap move amountif MA > radius", () => {
+      const lastCoord = [200,200];
+      const lastAngle = -1;
+      const circleDiam = 400;
+      const moveAmount = 205;
+
+      const possibleCoord = StepLineGen.newPointBasedOnLast(lastCoord, lastAngle, circleDiam, moveAmount);
+
+      // calculate distance between coords
+      const xChange = Math.abs(possibleCoord[0] - lastCoord[0]);
+      const yChange = Math.abs(possibleCoord[1] - lastCoord[1]);
+      let totalChange = 0;
+      if(xChange === 0 || yChange === 0){
+        // move was 0 90 180 or 270
+        totalChange = Math.max(xChange, yChange);
+      } else {
+        // move was 45 135 225 or 315
+        totalChange = Math.sqrt(xChange**2 + yChange**2);
+      }
+      
+      const actualMoveWasLess = totalChange < moveAmount;
+      assert.equal(actualMoveWasLess, true);
     });
+    
 
     describe("Empty array is given single coord", () => {
 

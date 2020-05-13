@@ -1,11 +1,14 @@
 const initialState = {
-    circleWidthHeight : 400,
+    circleWidthHeight : 150,
     padding : 25,
     noOfPoints : 10,
-    circleCount : 5,
+    circleCount : 30,
     startInCentre : false,
-    lineMovePercent : 25,
-    mode : "single"
+    lineMovePercent : 15,
+    moveAmount : 22.5,
+    mode : "multiple",
+    showStartPoint : false,
+    showEndPoint : false
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,7 +16,8 @@ const reducer = (state = initialState, action) => {
         case 'CHANGE_CIRCLE_DIAMETER' : 
             return {
                 ...state,
-                circleWidthHeight : action.newDiam
+                circleWidthHeight : action.newDiam,
+                moveAmount : Math.floor((state.lineMovePercent / 100) * state.circleWidthHeight)
             };
         case 'CHANGE_CIRCLE_PADDING' : 
             return {
@@ -35,10 +39,22 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 startInCentre : !state.startInCentre
             }
+        case 'TOGGLE_SHOW_START_POINT':
+            return {
+                ...state,
+                showStartPoint : !state.showStartPoint
+            }
+        case 'TOGGLE_SHOW_END_POINT':
+            return {
+                ...state,
+                showEndPoint : !state.showEndPoint
+            }
+        
         case 'CHANGE_LINE_MOVE_PERCENT':
             return {
                 ...state,
-                lineMovePercent : action.newPercent
+                lineMovePercent : action.newPercent,
+                moveAmount : Math.floor((state.lineMovePercent / 100) * state.circleWidthHeight)
             }
         case 'TOGGLE_MODE':
             return {

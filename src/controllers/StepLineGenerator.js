@@ -107,13 +107,17 @@ const calculateLastAngle = (lastCoord, secondLastCoord) => {
 
 const newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
     // this function gives you back a coord when you feed it the previous coord (+some info)
-    if(!lastAngle || !circleDiam || !moveAmount){
-        console.log(`Did not supply either move amount ${moveAmount}, circle diam ${circleDiam}, or lastAngle${lastAngle}`)
+    if(!circleDiam || !moveAmount){
+        console.log(`Did not supply either move amount ${moveAmount} or circle diam ${circleDiam}`);
+    }
+
+    if(!lastAngle && lastAngle !== 0){
+        console.log(`Did not supply a last angle: ${lastAngle}`);
     }
     
     if(moveAmount >= circleDiam / 2){
-        console.log("Warning, move amount is too high, line won't work");
-        return null;
+        console.log("[newPointBasedOnLast] Move amount is >= radius. Not allowed. Capping to save error.");
+        moveAmount = Math.floor(circleDiam * 0.49);
     }
 
     let triedAngles = [];
@@ -148,8 +152,8 @@ const addPointToList = (currentCoordList, circleConfig) => {
     // circleConfig = { startInCentre, circleDiam, moveAmount }
 
     if(circleConfig.moveAmount >= circleConfig.circleDiam / 2){
-        console.log("Move amount is >= radius. Not allowed.");
-        return null;
+        console.log("[addPointToList] Move amount is >= radius. Not allowed. Capping to save error.");
+        circleConfig.moveAmount = Math.floor(circleConfig.circleDiam * 0.49);
     }
 
     if(currentCoordList.length === 0){
@@ -170,8 +174,8 @@ const addPointToList = (currentCoordList, circleConfig) => {
 const generateListOfCoords = (noOfPoints, circleConfig) => {
     // this function takes in just noOfPoints + circleConfig info and returns a lst of valid coords
     if(circleConfig.moveAmount >= circleConfig.circleDiam / 2){
-        console.log("Move amount is >= radius. Not allowed.");
-        return null;
+        console.log("[generateListOfCoords] Move amount is >= radius. Not allowed. Capping to save error.");
+        circleConfig.moveAmount = Math.floor(circleConfig.circleDiam * 0.49);
     }
 
     if(noOfPoints <=1) console.log(`Only asked [generateListOfCoords] for ${noOfPoints}.`);

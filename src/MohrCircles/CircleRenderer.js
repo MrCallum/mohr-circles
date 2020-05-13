@@ -5,15 +5,10 @@ import MohrCircle from './MohrCircle';
 const CircleRenderer = props => {
 
     let canvasWidthHeight = +props.circleDiam + +props.circlePad;
-
     let circlesArray = [];
     
     for(let i = 0; i < props.circleCount; i++){
-        circlesArray.push(
-            <MohrCircle 
-                canvasWidthHeight={canvasWidthHeight} 
-                padding={props.circlePad} 
-                key={i}/>);
+        circlesArray.push(<MohrCircle canvasWidthHeight={canvasWidthHeight} key={i}/>);
     }
 
 
@@ -34,7 +29,8 @@ const mapStateToProps = state => {
     return {
         circleDiam : state.circleWidthHeight,
         circlePad : state.padding,
-        circleCount : state.circleCount
+        circleCount : state.circleCount,
+        lineMovePercent : state.lineMovePercent
     }
 }
 
