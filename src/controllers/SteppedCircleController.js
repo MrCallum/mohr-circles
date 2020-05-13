@@ -21,8 +21,8 @@ const SteppedCircleController = props => {
         startInCentre : props.centreStart,
         moveAmount : 50
     }
-    // const initialCoordList = StepLineGen.addPointToList([], circleConfig);
-    const [listOfCoords, setListOfCoords] = useState([[200,200], [150, 200]]);
+    
+    const [listOfCoords, setListOfCoords] = useState([]);
 
     const handleNextStep = () => {
         let currentList = [...listOfCoords];
@@ -32,6 +32,7 @@ const SteppedCircleController = props => {
 
     const handleUndoStep = () => {
         let currentList = [...listOfCoords];
+     
         currentList.pop();
         setListOfCoords(currentList);
     }
@@ -73,10 +74,12 @@ const SteppedCircleController = props => {
                     <stop offset="100%" style={{stopColor:"rgb(255,0,0)", stopOpacity:1}} />
                     </linearGradient>
                 </defs> */}
-                {/* <rect 
-                    width="10" height="10"
-                    stroke="red" fill="red"
-                    x={paddedCoords[0][0]-5} y={paddedCoords[0][1]-5}/> */}
+                {paddedCoords.length > 0 ? 
+                    <rect 
+                        width="10" height="10"
+                        stroke="red" fill="red"
+                        x={paddedCoords[0][0]-5} y={paddedCoords[0][1]-5}/>
+                    : null}
                 <circle 
                     cx={(props.circleHiWi/2) + props.padding/2} 
                     cy={(props.circleHiWi/2) + props.padding/2} 

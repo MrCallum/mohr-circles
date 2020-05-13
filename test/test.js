@@ -327,8 +327,20 @@ describe("Coord placement", () => {
     });
 
     describe("addPointToList: Will add points to existing list", () => {
+      it("Will add a single point to a list of length 1", () => {
+        let arrayOfCoords = [[200,200]];
+        
+        const circleConfig = {
+          circleDiam : 400,
+          startInCentre : true,
+          moveAmount : 50
+        }
+
+        let newArray = StepLineGen.addPointToList(arrayOfCoords, circleConfig);
+        assert.equal(newArray.length, 2);
+      });
+
       it("Will add a single point to a list of length 2", () => {
-        // let arrayOfCoords = [[200,200], [200, 250], [200, 300], [200, 350]];
         let arrayOfCoords = [[200,200], [200, 250]];
         
         const circleConfig = {
@@ -338,12 +350,10 @@ describe("Coord placement", () => {
         }
 
         let newArray = StepLineGen.addPointToList(arrayOfCoords, circleConfig);
-        console.log("New array recievedd back is: ", newArray);
         assert.equal(newArray.length, 3);
       });
 
       it("Will add a 10 points to a list of length 2", () => {
-        // let arrayOfCoords = [[200,200], [200, 250], [200, 300], [200, 350]];
         let arrayOfCoords = [[200,200], [200, 250]];
         const circleConfig = {
           circleDiam : 400,

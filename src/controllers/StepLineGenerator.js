@@ -1,8 +1,6 @@
 // I want a system where you can click a button and only one step is taken at a time.
 // if the step fails (can't generate a coord, coord was invalid etc.) show me what happened.
 
-
-
 const generateStartingCoord = (circleDiam, startInCentre = false) => {
     if(startInCentre){
         return [circleDiam/2, circleDiam/2];
@@ -159,7 +157,7 @@ const addPointToList = (currentCoordList, circleConfig) => {
         return [generateStartingCoord(circleConfig.circleDiam, circleConfig.startInCentre)];
     } else if (currentCoordList.length === 1){
         let newPoint = newPointBasedOnLast(currentCoordList[0], -1, circleConfig.circleDiam, circleConfig.moveAmount);
-        return currentCoordList.push(newPoint);
+        return [...currentCoordList, newPoint];
     }
 
     const lastCoord = currentCoordList[currentCoordList.length - 1];
