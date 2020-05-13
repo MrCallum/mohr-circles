@@ -217,6 +217,7 @@ describe("Possible coords should be confirmed as inside circle", () => {
 })
 
 describe("Coord placement", () => {
+
   describe("generateStartingCoord: tests for starting coord generation", () => {
     it("if 'startInCentre' not specified, is valid random point inside circle", () => {
       let noOfAttempts = 100;
@@ -238,8 +239,6 @@ describe("Coord placement", () => {
       assert.deepEqual(coord, [200,200]);
     });
   });
-
- 
 
   describe("tests for newPointBasedOnLast", () => {
     // takes: (lastPoint, lastAngle, circleDiam, moveAmount)
@@ -278,7 +277,6 @@ describe("Coord placement", () => {
     })
   })
 
-
   describe("Adding coords to coord list", () => {
 
     describe("Will not add second coord if no possible points", () => {
@@ -302,7 +300,6 @@ describe("Coord placement", () => {
       });
     });
 
-    
     describe("Empty array is given single coord", () => {
 
       it("single coord will be returned if startInCentre is false", () => {
@@ -369,4 +366,17 @@ describe("Coord placement", () => {
       });
     });
   });
+
+  describe("generateListOfCoords: generating a list of coords in one function call", () => {
+    it("Generates a list of 10 points from an empty array", () => {
+      let coordList = [];
+      const circleConfig = {
+        circleDiam : 400,
+        startInCentre : false,
+        moveAmount : 50
+      }
+      coordList = StepLineGen.generateListOfCoords(10, circleConfig);
+      assert.equal(coordList.length, 10);
+    });
+  })
 });

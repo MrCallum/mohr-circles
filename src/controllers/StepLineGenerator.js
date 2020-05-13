@@ -167,8 +167,22 @@ const addPointToList = (currentCoordList, circleConfig) => {
     return [...currentCoordList, newPoint];
 }
 
-const generateListOfCoords = () => {
+const generateListOfCoords = (noOfPoints, circleConfig) => {
+    // this function takes in just noOfPoints + circleConfig info and returns a lst of valid coords
+    if(circleConfig.moveAmount >= circleConfig.circleDiam / 2){
+        console.log("Move amount is >= radius. Not allowed.");
+        return null;
+    }
 
+    if(noOfPoints <=1) console.log(`Only asked [generateListOfCoords] for ${noOfPoints}.`);
+    
+    let coordList = [];
+
+    for(let i = 0; i < noOfPoints; i++){
+        coordList = addPointToList(coordList, circleConfig);
+    }
+
+    return coordList;
 }
 
 exports.addMovement = addMovement;
@@ -179,3 +193,4 @@ exports.generateStartingCoord = generateStartingCoord;
 exports.addPointToList = addPointToList;
 exports.newPointBasedOnLast = newPointBasedOnLast;
 exports.calculateLastAngle = calculateLastAngle;
+exports.generateListOfCoords = generateListOfCoords;

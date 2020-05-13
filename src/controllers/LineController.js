@@ -8,7 +8,7 @@ const LineController = props => {
     const handleLineMovePercentChange = e => props.onChangeLineMovePercent(e.target.value);
 
     return (
-        <div style={{border : "1px solid gray", margin : "0 20%"}}>
+        <div>
             <h3>Line Controller</h3>
             <label>
                 Number of points:

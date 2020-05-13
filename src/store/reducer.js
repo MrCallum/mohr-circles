@@ -4,7 +4,8 @@ const initialState = {
     noOfPoints : 10,
     circleCount : 5,
     startInCentre : false,
-    lineMovePercent : 25
+    lineMovePercent : 25,
+    mode : "single"
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,6 +39,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 lineMovePercent : action.newPercent
+            }
+        case 'TOGGLE_MODE':
+            return {
+                ...state,
+                mode : state.mode === "single" ? "multiple" : "single"
             }
         default :
             console.log("[Reducer] Action was unhandled: " + JSON.stringify(action));

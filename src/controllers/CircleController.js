@@ -14,7 +14,7 @@ const CircleController = props => {
 
 
     return (
-        <div style={{border : "1px solid gray", margin : "0 20%"}}>
+        <div>
             <h3>Circle Controller</h3>
             <label>
                 Circle dimensions:
@@ -38,6 +38,25 @@ const CircleController = props => {
             <p>padding %(slider)</p>
             <p>circle stroke width (slider)</p>
             <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>circle stroke colour(picker)</p>
+            <p>Last item</p>
         </div>
     )
 }
