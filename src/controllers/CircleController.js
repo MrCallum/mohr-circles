@@ -15,7 +15,7 @@ const CircleController = props => {
 
     return (
         <div>
-            <h3>Circle Controller</h3>
+            <h3>Circles</h3>
             <label>
                 Circle dimensions:
                 <input 
@@ -26,37 +26,20 @@ const CircleController = props => {
                     <span>{props.circleDiam}</span>
             </label>
             <br />
-            <label>
+            <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
                 Number of Mohr Circles:
+                <br />
                 <input 
+                    disabled={props.currentMode !== "multiple"}
+                    style={{ color : "inherit", textAlign : "center"}}
                     type="number" name="circles" 
                     min={1} max={100} 
                     value={props.circleCount} 
                     onChange={handleNoOfCirclesChange}/>
-                <span>{props.circleCount}</span>
             </label>
-            <p>padding %(slider)</p>
-            <p>circle stroke width (slider)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>circle stroke colour(picker)</p>
-            <p>Last item</p>
+
+            {/* <p>padding %(slider)</p>
+            <p>circle stroke width (slider)</p> */}
         </div>
     )
 }
@@ -65,7 +48,8 @@ const mapStateToProps = state => {
     return {
         circleDiam : state.circleWidthHeight,
         circlePad : state.padding,
-        circleCount : state.circleCount
+        circleCount : state.circleCount,
+        currentMode : state.mode
     }
 }
 

@@ -46,21 +46,25 @@ const SteppedCircleController = props => {
     
 
     const circleHolderStyle = {
+        height : "90vh",
         display : "flex",
         flexDirection: "row",
         flexWrap : "wrap",
+        alignItems: "center",
         justifyContent: "center"
     }
 
-    // setTimeout(() => {
-    //     handleNextStep();
-    // }, 1000);
-    
+    const buttonStyle = {
+        fontSize : "4vh"
+    }
 
     return <>
-        <button onClick={handleNextStep}>Next step</button>
-        <button onClick={handleUndoStep}>Undo</button>
-        <button onClick={handleReset}>Reset</button>
+        <div>
+            <button style={buttonStyle} onClick={handleUndoStep}>&#8592;</button>
+            <button style={buttonStyle} onClick={handleReset}>&#8634;</button>
+            <button style={buttonStyle} onClick={handleNextStep}> &#8594;</button>
+        </div>
+
         <div style={circleHolderStyle}>
             <svg width={canvasWidthHeight} height={canvasWidthHeight} version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="white"/>
@@ -83,9 +87,21 @@ const SteppedCircleController = props => {
                     r={(props.circleHiWi / 2)} 
                     stroke="black" strokeWidth="4" fill="none"/>
                 <polyline 
-                    stroke="black" fill="transparent" strokeWidth="4"
+                    stroke="black" fill="transparent" strokeWidth="2"
                     strokeLinejoin="round"
                     points={stringListOfCoords}/>
+                {props.showStartPoint ? 
+                    <rect 
+                    width="5" height="5"
+                    stroke="red" fill="red"
+                    rx="2.5" ry="2.5"
+                    x={paddedCoords[0][0]-2.5} y={paddedCoords[0][1]-2.5}/> : null}
+                {props.showEndPoint ? 
+                    <rect 
+                    width="5" height="5"
+                    stroke="blue" fill="blue"
+                    rx="2.5" ry="2.5"
+                    x={paddedCoords[paddedCoords.length-1][0]-2.5} y={paddedCoords[paddedCoords.length-1][1]-2.5}/> : null}
             </svg>
         </div>
         {/* <p>{JSON.stringify(niceDisplay)}</p> */}
@@ -98,7 +114,9 @@ const mapStateToProps = state => {
         padding : state.padding,
         noOfPoints : state.noOfPoints,
         centreStart : state.startInCentre,
-        lineMoveAmount : state.moveAmount
+        lineMoveAmount : state.moveAmount,
+        showStartPoint : state.showStartPoint,
+        showEndPoint : state.showEndPoint
     }
 }
 

@@ -9,29 +9,33 @@ const LineController = props => {
     const handleShowEndToggle = () => props.onToggleShowEndPoint();
     const handleLineMovePercentChange = e => props.onChangeLineMovePercent(e.target.value);
 
+
+
+
     return (
         <div>
-            <h3>Line Controller</h3>
+            <h3>Line</h3>
             <label>
                 Start in centre:
-                <br />
                 <input 
                     type="checkbox" name="center" 
                     value={props.centreStart} 
                     onChange={handleCenterStartToggle}/>
             </label>
             <br />
-            <label>
-                Number of points:
+                <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
+                    Number of points:
+                    <br />
+                    <input
+                        disabled={props.currentMode !== "multiple"}
+                        style={{ color : "inherit"}}
+                        type="range" name="points" 
+                        min={3} max={15} 
+                        value={props.noOfPoints} 
+                        onChange={handleNoOfPointsChange}/>
+                    <span>{props.noOfPoints}</span>
+                </label>
                 <br />
-                <input 
-                    type="range" name="points" 
-                    min={3} max={15} 
-                    value={props.noOfPoints} 
-                    onChange={handleNoOfPointsChange}/>
-                <span>{props.noOfPoints}</span>
-            </label>
-            <br />
             <label>
                 Line movement distance (as % of diameter):
                 <br />
@@ -45,7 +49,6 @@ const LineController = props => {
             <br />
             <label>
                 Highlight start point:
-                <br />
                 <input 
                     type="checkbox" name="show start" 
                     value={props.showStartPoint} 
@@ -54,16 +57,14 @@ const LineController = props => {
             <br />
             <label>
                 Highlight end point:
-                <br />
                 <input 
                     type="checkbox" name="show end" 
                     value={props.showEndPoint} 
                     onChange={handleShowEndToggle}/>
             </label>
 
-            <p>line stroke width (slider)</p>
-            <p>line distance as % of diam (slider)</p>
-            <p>circle stroke colour(picker)</p>
+            {/* <p>line stroke width (slider)</p>
+            <p>circle stroke colour(picker)</p> */}
         </div>);
 }
 
@@ -73,7 +74,8 @@ const mapStateToProps = state => {
         centreStart : state.startInCentre,
         lineMovePercent : state.lineMovePercent,
         showStartPoint : state.showStartPoint,
-        showEndPoint : state.showEndPoint
+        showEndPoint : state.showEndPoint,
+        currentMode : state.mode
     }
 }
 

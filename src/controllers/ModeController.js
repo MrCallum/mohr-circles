@@ -8,14 +8,14 @@ const ModeController = props => {
 
     return (
         <>
-            <h3>Current Mode</h3>
+            <h3>Mode</h3>
             <button 
                 onClick={handleModeChange} 
-                disabled={props.currentMode !== "multiple"}>Multiple</button>
+                disabled={props.currentMode === "multiple"}>Multiple</button>
             <button 
                 onClick={handleModeChange}
-                disabled={props.currentMode !== "single"}>Single</button>
-            <p>This is some explanatory text to help the user understand a little more about what they are doing</p>
+                disabled={props.currentMode === "single"}>Single</button>
+            <p>{props.currentMode === "multiple" ? "Generate an array of Mohr Circles" : "Generate just one Mohr circle, but with fine control over the line. If you see a dot, that's the starting point"}</p>
         </>
     );
 }

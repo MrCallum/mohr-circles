@@ -19,6 +19,7 @@ const gap = {
 const innerHolder = {
     width : "inherit",
     boxSizing : "inherit",
+    textAlign : "left",
     padding : "1%",
     backgroundColor  : "white",
     position : "fixed",

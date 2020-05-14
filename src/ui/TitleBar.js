@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { AboutPage } from '../AboutPage';
 
 const barStyle = {
   width: "100%",
@@ -11,8 +12,35 @@ const barStyle = {
   borderBottom : "1px solid gray"
 };
 
-export const TitleBar = props => (
-    <div style={barStyle}>
-          <h1>Mohr Circles</h1>
-    </div>
-);
+const aboutButton = {
+  position : "fixed",
+  left : "5vh",
+  top : "2vh",
+  height : "6vh",
+  boxSizing : "border-box",
+  backgroundColor : "inherit",
+  border : "none",
+  fontSize : "2vh",
+
+  // margin : "2vh",
+  // overflow : "hidden",
+  // outline : "none",
+  // borderRadius : "50%"
+}
+
+export const TitleBar = props => {
+  const [showAboutPage, setShowAboutPage ] = useState(false);
+
+
+  return (
+    <>
+      <div style={barStyle}>
+        <button style={aboutButton} onClick={() => setShowAboutPage(!showAboutPage)}>[ {showAboutPage ? "close" : "about"} ]</button>
+        <h1>Mohr Circles</h1>
+      </div>
+      <AboutPage topOffset={showAboutPage ? "10vh" : "100vh"}/>
+      
+      
+    </>
+  )
+};
