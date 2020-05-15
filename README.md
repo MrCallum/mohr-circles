@@ -1,5 +1,5 @@
 ## What are Moh circles?
-Manfred Mohr is New York based, German born digital artist. I found [this](href=http://www.emohr.com/sc69-73/vfile_48.html) and tried to make my own version. This work doesn't seem to have a title, so I've called these 'Mohr Circles'.
+Manfred Mohr is New York based, German born digital artist. I found [this](http://www.emohr.com/sc69-73/vfile_48.html) and tried to make my own version. This work doesn't seem to have a title, so I've called these 'Mohr Circles'.
 From some brief text on that page, and by observing Mohr's examples, the inner line has four rules:
 
 - A line should be made up of 6 connected smaller lines.
