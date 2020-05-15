@@ -9,13 +9,15 @@ const ModeController = props => {
     return (
         <>
             <h3>Mode</h3>
-            <button 
-                onClick={handleModeChange} 
-                disabled={props.currentMode === "multiple"}>Multiple</button>
-            <button 
-                onClick={handleModeChange}
-                disabled={props.currentMode === "single"}>Single</button>
-            <p>{props.currentMode === "multiple" ? "Generate an array of Mohr Circles" : "Generate just one Mohr circle, but with fine control over the line. If you see a dot, that's the starting point"}</p>
+            <div style={{paddingLeft : "5%"}}>
+                <button 
+                    onClick={handleModeChange} 
+                    disabled={props.currentMode === "multiple"}>Multiple</button>
+                <button 
+                    onClick={handleModeChange}
+                    disabled={props.currentMode === "single"}>Single</button>
+                <p>{props.currentMode === "multiple" ? "Generate an array of Mohr Circles" : "Generate just one Mohr circle, but with fine control over the line. If you see a dot, that's the starting point"}</p>
+            </div>
         </>
     );
 }

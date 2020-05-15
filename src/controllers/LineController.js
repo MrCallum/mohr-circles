@@ -13,59 +13,72 @@ const LineController = props => {
 
 
     return (
-        <div>
+        <>
             <h3>Line</h3>
-            <label>
-                Start in centre:
-                <input 
-                    type="checkbox" name="center" 
-                    value={props.centreStart} 
-                    onChange={handleCenterStartToggle}/>
-            </label>
-            <br />
-                <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
-                    Number of points:
-                    <br />
-                    <input
-                        disabled={props.currentMode !== "multiple"}
-                        style={{ color : "inherit"}}
-                        type="range" name="points" 
-                        min={3} max={15} 
-                        value={props.noOfPoints} 
-                        onChange={handleNoOfPointsChange}/>
-                    <span>{props.noOfPoints}</span>
+            <div style={{paddingLeft : "5%"}}>
+                <label>
+                    Start in centre:
+                    <input 
+                        type="checkbox" name="center" 
+                        value={props.centreStart} 
+                        onChange={handleCenterStartToggle}/>
                 </label>
                 <br />
-            <label>
-                Line movement distance (as % of diameter):
+                    <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
+                        Number of points:
+                        <br />
+                        <input
+                            disabled={props.currentMode !== "multiple"}
+                            style={{ color : "inherit"}}
+                            type="range" name="points" 
+                            min={3} max={15} 
+                            value={props.noOfPoints} 
+                            onChange={handleNoOfPointsChange}/>
+                        <span>{props.noOfPoints}</span>
+                    </label>
+                    <br />
+                <label>
+                    Line movement distance (as % of diameter):
+                    <br />
+                    <input 
+                        type="range" name="move-percent" 
+                        min={10} max={49} 
+                        value={props.lineMovePercent} 
+                        onChange={handleLineMovePercentChange}/>
+                        <span>{props.lineMovePercent}%</span>
+                </label>
                 <br />
-                <input 
-                    type="range" name="move-percent" 
-                    min={10} max={49} 
-                    value={props.lineMovePercent} 
-                    onChange={handleLineMovePercentChange}/>
-                    <span>{props.lineMovePercent}%</span>
-            </label>
-            <br />
-            <label>
-                Highlight start point:
-                <input 
-                    type="checkbox" name="show start" 
-                    value={props.showStartPoint} 
-                    onChange={handleShowStartToggle}/>
-            </label>
-            <br />
-            <label>
-                Highlight end point:
-                <input 
-                    type="checkbox" name="show end" 
-                    value={props.showEndPoint} 
-                    onChange={handleShowEndToggle}/>
-            </label>
+                <label>
+                    Highlight start point:
+                    <input 
+                        type="checkbox" name="show start" 
+                        value={props.showStartPoint} 
+                        onChange={handleShowStartToggle}/>
+                </label>
+                <br />
+                <label>
+                    Highlight end point:
+                    <input 
+                        type="checkbox" name="show end" 
+                        value={props.showEndPoint} 
+                        onChange={handleShowEndToggle}/>
+                </label>
+                <br />
+                <label>
+                    Line thickness:
+                    <br />
+                    <input 
+                        type="range" name="line thickness" 
+                        min={1} max={10} 
+                        value={props.lineThickness} 
+                        onChange={(e) => props.onChangeLineThickness(e.target.value)}/>
+                        <span>{props.lineThickness}</span>
+                </label>
 
-            {/* <p>line stroke width (slider)</p>
-            <p>circle stroke colour(picker)</p> */}
-        </div>);
+                {/* <p>line stroke width (slider)</p>
+                <p>circle stroke colour(picker)</p> */}
+            </div>
+        </>);
 }
 
 const mapStateToProps = state => {
@@ -75,7 +88,8 @@ const mapStateToProps = state => {
         lineMovePercent : state.lineMovePercent,
         showStartPoint : state.showStartPoint,
         showEndPoint : state.showEndPoint,
-        currentMode : state.mode
+        currentMode : state.mode,
+        lineThickness : state.lineThickness
     }
 }
 
@@ -86,6 +100,7 @@ const mapDispatchToProps = dispatch => {
         onChangeLineMovePercent : (newPercent) => dispatch({type : 'CHANGE_LINE_MOVE_PERCENT', newPercent}),
         onToggleShowStartPoint : () => dispatch({type : 'TOGGLE_SHOW_START_POINT'}),
         onToggleShowEndPoint : () => dispatch({type : 'TOGGLE_SHOW_END_POINT'}),
+        onChangeLineThickness : (newThickness) => dispatch({ type : 'CHANGE_LINE_THICKNESS', newThickness})
     }
 }
 

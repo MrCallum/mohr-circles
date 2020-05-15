@@ -8,7 +8,10 @@ const initialState = {
     moveAmount : 22.5,
     mode : "multiple",
     showStartPoint : false,
-    showEndPoint : false
+    showEndPoint : false,
+    circleThickness : 4,
+    lineThickness : 2
+
 };
 
 const reducer = (state = initialState, action) => {
@@ -55,6 +58,16 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 lineMovePercent : action.newPercent,
                 moveAmount : Math.floor((state.lineMovePercent / 100) * state.circleWidthHeight)
+            }
+        case 'CHANGE_CIRCLE_THICKNESS':
+            return {
+                ...state,
+                circleThickness : action.newThickness
+            }
+        case 'CHANGE_LINE_THICKNESS':
+            return {
+                ...state,
+                lineThickness : action.newThickness
             }
         case 'TOGGLE_MODE':
             return {
