@@ -8,10 +8,16 @@ From some brief text on that page, and by observing Mohr's examples, the inner l
 - Lines can be any length that fit inside the circle (my implementation does not obey this rule. Instead, lines are fixed in length).
 
 ## Live site
-coming soon.
+Hosted by Netlify [here](https://cal-mo-circles.netlify.app)
 
 ## Motivation
 I made this for some practice in:
 - TDD (see test/test.js)
 - React Redux (see src/store/reducer etc.)
 - General mathsie practice / problem solving practice
+
+## TODO
+- make mobile friendly
+- make more responsive
+- fix bug re stepped mode (you can push the starting point outside of the circle by expanding the circle diameter)
+- 
