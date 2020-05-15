@@ -10,8 +10,6 @@ const CircleController = props => {
         props.onChangeCirclePadding((e.target.value * paddingMultiplier).toFixed(2));
     };
 
-    const handleNoOfCirclesChange = e => props.onChangeCircleCount(e.target.value);
-
 
     return (
         <>
@@ -35,7 +33,7 @@ const CircleController = props => {
                         type="range" name="width" 
                         min={0} max={10} 
                         value={props.circleThickness} 
-                        onChange={(e) => props.onChangeCircleThickness(e.target.value)}/>
+                        onChange={e => props.onChangeCircleThickness(e.target.value)}/>
                         <span>{props.circleThickness}</span>
                 </label>
                 <br />
@@ -48,7 +46,7 @@ const CircleController = props => {
                         type="number" name="circles" 
                         min={1} max={100} 
                         value={props.circleCount} 
-                        onChange={handleNoOfCirclesChange}/>
+                        onChange={e => props.onChangeCircleCount(e.target.value)}/>
                 </label>
             </div>
 

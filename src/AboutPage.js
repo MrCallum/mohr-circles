@@ -28,5 +28,6 @@ export const AboutPage = props => {
             </ul>
             <h1>Who made this?</h1>
             <p><a href="http://www.callum-morrison.com" target="blank">Callum Morrison</a> in Edinburgh during COVID19. This is my first foray into digital / generative art. Send me an <a href="mailto:mrcallummorrison@gmail.com">email</a> if you would like to see anything added / have any feedback</p>
+            <p>Github <a href="https://github.com/MrCallum/mohr-circles" target="blank">here</a>.</p>
         </div>);
 };

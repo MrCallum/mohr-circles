@@ -3,15 +3,6 @@ import { connect } from 'react-redux';
 
 const LineController = props => {
 
-    const handleNoOfPointsChange = e => props.onChangePointCount(e.target.value);
-    const handleCenterStartToggle = () => props.onToggleCentreStart();
-    const handleShowStartToggle = () => props.onToggleShowStartPoint();
-    const handleShowEndToggle = () => props.onToggleShowEndPoint();
-    const handleLineMovePercentChange = e => props.onChangeLineMovePercent(e.target.value);
-
-
-
-
     return (
         <>
             <h3>Line</h3>
@@ -21,7 +12,7 @@ const LineController = props => {
                     <input 
                         type="checkbox" name="center" 
                         value={props.centreStart} 
-                        onChange={handleCenterStartToggle}/>
+                        onChange={() => props.onToggleCentreStart()}/>
                 </label>
                 <br />
                     <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
@@ -33,7 +24,7 @@ const LineController = props => {
                             type="range" name="points" 
                             min={3} max={15} 
                             value={props.noOfPoints} 
-                            onChange={handleNoOfPointsChange}/>
+                            onChange={(e) => props.onChangePointCount(e.target.value)}/>
                         <span>{props.noOfPoints}</span>
                     </label>
                     <br />
@@ -44,7 +35,7 @@ const LineController = props => {
                         type="range" name="move-percent" 
                         min={10} max={49} 
                         value={props.lineMovePercent} 
-                        onChange={handleLineMovePercentChange}/>
+                        onChange={(e) => props.onChangeLineMovePercent(e.target.value)}/>
                         <span>{props.lineMovePercent}%</span>
                 </label>
                 <br />
@@ -53,7 +44,7 @@ const LineController = props => {
                     <input 
                         type="checkbox" name="show start" 
                         value={props.showStartPoint} 
-                        onChange={handleShowStartToggle}/>
+                        onChange={() => props.onToggleShowStartPoint()}/>
                 </label>
                 <br />
                 <label>
@@ -61,7 +52,7 @@ const LineController = props => {
                     <input 
                         type="checkbox" name="show end" 
                         value={props.showEndPoint} 
-                        onChange={handleShowEndToggle}/>
+                        onChange={() => props.onToggleShowEndPoint()}/>
                 </label>
                 <br />
                 <label>
@@ -75,8 +66,6 @@ const LineController = props => {
                         <span>{props.lineThickness}</span>
                 </label>
 
-                {/* <p>line stroke width (slider)</p>
-                <p>circle stroke colour(picker)</p> */}
             </div>
         </>);
 }

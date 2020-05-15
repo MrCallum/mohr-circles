@@ -4,21 +4,16 @@ import { connect } from 'react-redux';
 
 import CircleController from './controllers/CircleController';
 import LineController from './controllers/LineController';
-import CircleRenderer from './MohrCircles/CircleRenderer';
-import {AdditionalOptions} from './controllers/AdditionalOptions';
 import SteppedCircleController from './controllers/SteppedCircleController';
-import {ControllerHolder} from './ui/ControllerHolder';
-import {RendererHolder} from './ui/RendererHolder';
+
 import ModeController from './controllers/ModeController';
+import {ControllerHolder} from './ui/ControllerHolder';
 import {TitleBar} from './ui/TitleBar';
+import {RendererHolder} from './ui/RendererHolder';
+import CircleRenderer from './MohrCircles/CircleRenderer';
 
 function App(props) {
-  
-  
-
   return (
-
-
     <div className="App">
         
         <TitleBar />
@@ -27,7 +22,6 @@ function App(props) {
           <LineController />
           <CircleController />
         </ControllerHolder>
-        {/* <AdditionalOptions />*/}
         <RendererHolder>
           
           {props.currentMode === "single" ?

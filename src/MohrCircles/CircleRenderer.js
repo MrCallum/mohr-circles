@@ -11,7 +11,6 @@ const CircleRenderer = props => {
         circlesArray.push(<MohrCircle canvasWidthHeight={canvasWidthHeight} key={i}/>);
     }
 
-
     const circleHolderStyle = {
         display : "flex",
         flexDirection: "row",

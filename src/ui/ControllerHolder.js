@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const outerHolder = {
     width : "20%",
     boxSizing: "border-box",

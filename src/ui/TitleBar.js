@@ -21,11 +21,6 @@ const aboutButton = {
   backgroundColor : "inherit",
   border : "none",
   fontSize : "2vh",
-
-  // margin : "2vh",
-  // overflow : "hidden",
-  // outline : "none",
-  // borderRadius : "50%"
 }
 
 export const TitleBar = props => {
@@ -39,8 +34,6 @@ export const TitleBar = props => {
         <h1>Mohr Circles</h1>
       </div>
       <AboutPage topOffset={showAboutPage ? "10vh" : "100vh"}/>
-      
-      
     </>
   )
 };
