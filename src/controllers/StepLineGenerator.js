@@ -1,7 +1,9 @@
 // I want a system where you can click a button and only one step is taken at a time.
 // if the step fails (can't generate a coord, coord was invalid etc.) show me what happened.
 
-const generateStartingCoord = (circleDiam, startInCentre = false) => {
+const StepLineGenerator = {}
+
+StepLineGenerator.generateStartingCoord = (circleDiam, startInCentre = false) => {
     if(startInCentre){
         return [circleDiam/2, circleDiam/2];
     }
@@ -12,13 +14,13 @@ const generateStartingCoord = (circleDiam, startInCentre = false) => {
         xCoord = +(Math.random() * circleDiam).toFixed(2);
         yCoord = +(Math.random() * circleDiam).toFixed(2);
 
-        isInsideRadius = checkInsideCircle(circleDiam, [xCoord, yCoord]);
+        isInsideRadius = StepLineGenerator.checkInsideCircle(circleDiam, [xCoord, yCoord]);
     }
 
     return [xCoord, yCoord];
 }
 
-const possibleAngles = (lastAngle, triedAngles = []) => {
+StepLineGenerator.possibleAngles = (lastAngle, triedAngles = []) => {
     if(lastAngle === -1){
         return [0, 45, 90, 135, 180, 225, 270, 315];
     }
@@ -32,11 +34,11 @@ const possibleAngles = (lastAngle, triedAngles = []) => {
     return [0, 45, 90, 135, 180, 225, 270, 315].filter(el => !triedAngles.includes(el));
 }
 
-const convertMovementDiagonally = flatMoveAmount => {
+StepLineGenerator.convertMovementDiagonally = flatMoveAmount => {
     return Number(Math.sqrt((flatMoveAmount ** 2) / 2).toFixed(3));
 }
 
-const addMovement = (startCoord, moveAmount, angle) => {
+StepLineGenerator.addMovement = (startCoord, moveAmount, angle) => {
 
     let newCoord = [...startCoord];
     if(angle % 90 === 0){
@@ -55,7 +57,7 @@ const addMovement = (startCoord, moveAmount, angle) => {
             newCoord[1] -= moveAmount; // ie y needs to get closer to 0
         }
     } else {
-        const adjustedRanDist = convertMovementDiagonally(moveAmount);
+        const adjustedRanDist = StepLineGenerator.convertMovementDiagonally(moveAmount);
 
         if(angle === 45){
             newCoord[0] += adjustedRanDist;
@@ -79,14 +81,14 @@ const addMovement = (startCoord, moveAmount, angle) => {
     return newCoord;
 }
 
-const checkInsideCircle = (circleDiam, pointToCheck) => {
+StepLineGenerator.checkInsideCircle = (circleDiam, pointToCheck) => {
     // equation of a circle: (x - h)^2 + (y - k)^2 = r^2
     // where h,k is the center of the circle (h = x displacement, k = y displacement)
   
     return ((pointToCheck[0] - circleDiam/2)**2 + (pointToCheck[1] - circleDiam/2)**2) <= (circleDiam/2)**2;
 }
 
-const calculateLastAngle = (lastCoord, secondLastCoord) => {
+StepLineGenerator.calculateLastAngle = (lastCoord, secondLastCoord) => {
     const xDif = lastCoord[0] - secondLastCoord[0]; // positive means moving east
     const yDif = lastCoord[1] - secondLastCoord[1]; // positive means moving south
 
@@ -105,7 +107,7 @@ const calculateLastAngle = (lastCoord, secondLastCoord) => {
     return angle;
 }
 
-const newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
+StepLineGenerator.newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
     // this function gives you back a coord when you feed it the previous coord (+some info)
     if(!circleDiam || !moveAmount){
         console.log(`Did not supply either move amount ${moveAmount} or circle diam ${circleDiam}`);
@@ -124,7 +126,7 @@ const newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
     let validCoord = false;
 
     while(!validCoord){
-        let possAnglesArray = possibleAngles(lastAngle, triedAngles);
+        let possAnglesArray = StepLineGenerator.possibleAngles(lastAngle, triedAngles);
 
         if(possAnglesArray.length === 0){
             // tried all angles, none are suitable for some reason
@@ -134,9 +136,9 @@ const newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
 
         let angleToTry = possAnglesArray[Math.floor(Math.random() * possAnglesArray.length)];
 
-        let possCoord = addMovement(lastPoint, moveAmount, angleToTry);
+        let possCoord = StepLineGenerator.addMovement(lastPoint, moveAmount, angleToTry);
 
-        if(checkInsideCircle(circleDiam, possCoord)){
+        if(StepLineGenerator.checkInsideCircle(circleDiam, possCoord)){
             return possCoord;
         } else {
             triedAngles.push(angleToTry);
@@ -146,7 +148,7 @@ const newPointBasedOnLast = (lastPoint, lastAngle, circleDiam, moveAmount) => {
     return null; // shouldn't get here, but just in case
 }
 
-const addPointToList = (currentCoordList, circleConfig) => {
+StepLineGenerator.addPointToList = (currentCoordList, circleConfig) => {
     // this function takes a list of coords (+some config info) and gives you back the same list with one new coord added on.
     // I hate passing this "last angle" stuff, so last angle is calculated instead from the coord list.
     // circleConfig = { startInCentre, circleDiam, moveAmount }
@@ -158,20 +160,20 @@ const addPointToList = (currentCoordList, circleConfig) => {
 
     if(currentCoordList.length === 0){
         // simply return a starting point
-        return [generateStartingCoord(circleConfig.circleDiam, circleConfig.startInCentre)];
+        return [StepLineGenerator.generateStartingCoord(circleConfig.circleDiam, circleConfig.startInCentre)];
     } else if (currentCoordList.length === 1){
-        let newPoint = newPointBasedOnLast(currentCoordList[0], -1, circleConfig.circleDiam, circleConfig.moveAmount);
+        let newPoint = StepLineGenerator.newPointBasedOnLast(currentCoordList[0], -1, circleConfig.circleDiam, circleConfig.moveAmount);
         return [...currentCoordList, newPoint];
     }
 
     const lastCoord = currentCoordList[currentCoordList.length - 1];
-    const lastAngle = calculateLastAngle(lastCoord, currentCoordList[currentCoordList.length - 2]);
+    const lastAngle = StepLineGenerator.calculateLastAngle(lastCoord, currentCoordList[currentCoordList.length - 2]);
 
-    let newPoint = newPointBasedOnLast(lastCoord, lastAngle, circleConfig.circleDiam, circleConfig.moveAmount);
+    let newPoint = StepLineGenerator.newPointBasedOnLast(lastCoord, lastAngle, circleConfig.circleDiam, circleConfig.moveAmount);
     return [...currentCoordList, newPoint];
 }
 
-const generateListOfCoords = (noOfPoints, circleConfig) => {
+StepLineGenerator.generateListOfCoords = (noOfPoints, circleConfig) => {
     // this function takes in just noOfPoints + circleConfig info and returns a lst of valid coords
     if(circleConfig.moveAmount >= circleConfig.circleDiam / 2){
         console.log("[generateListOfCoords] Move amount is >= radius. Not allowed. Capping to save error.");
@@ -183,18 +185,10 @@ const generateListOfCoords = (noOfPoints, circleConfig) => {
     let coordList = [];
 
     for(let i = 0; i < noOfPoints; i++){
-        coordList = addPointToList(coordList, circleConfig);
+        coordList = StepLineGenerator.addPointToList(coordList, circleConfig);
     }
 
     return coordList;
 }
 
-exports.addMovement = addMovement;
-exports.convertMovementDiagonally = convertMovementDiagonally;
-exports.possibleAngles = possibleAngles;
-exports.checkInsideCircle = checkInsideCircle;
-exports.generateStartingCoord = generateStartingCoord;
-exports.addPointToList = addPointToList;
-exports.newPointBasedOnLast = newPointBasedOnLast;
-exports.calculateLastAngle = calculateLastAngle;
-exports.generateListOfCoords = generateListOfCoords;
+export default StepLineGenerator;

@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import { connect } from 'react-redux';
-const StepLineGen = require('./StepLineGenerator.js');
+import SLG from './StepLineGenerator.js';
 
 /* 
     Most mohr circles self generate a list of points but this "stepped circle controller" is different
@@ -16,13 +16,13 @@ const SteppedCircleController = props => {
         moveAmount : props.lineMoveAmount
     }
     
-    const [listOfCoords, setListOfCoords] = useState(StepLineGen.addPointToList([], circleConfig));
+    const [listOfCoords, setListOfCoords] = useState(SLG.addPointToList([], circleConfig));
 
     
 
     const handleNextStep = () => {
         let currentList = [...listOfCoords];
-        let newCoords = StepLineGen.addPointToList(currentList, circleConfig);
+        let newCoords = SLG.addPointToList(currentList, circleConfig);
         setListOfCoords(newCoords);
     }
 
@@ -36,7 +36,7 @@ const SteppedCircleController = props => {
     }
 
     const handleReset = () => {
-        let newCoords = StepLineGen.addPointToList([], circleConfig);
+        let newCoords = SLG.addPointToList([], circleConfig);
         setListOfCoords(newCoords);
     }
 

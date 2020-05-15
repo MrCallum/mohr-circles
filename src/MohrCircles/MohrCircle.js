@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-const LineGenerator = require('../controllers/StepLineGenerator');
+import STG from '../controllers/StepLineGenerator.js';
 
 // Mohr Circle.
 // Quite independent. It generates own coord list, works out padding etc.
@@ -12,7 +12,7 @@ const MohrCircle = props => {
         moveAmount : props.lineMoveAmount
     }
     
-    const listOfCoords = LineGenerator.generateListOfCoords(props.noOfPoints, circleConfig);
+    const listOfCoords = STG.generateListOfCoords(props.noOfPoints, circleConfig);
 
     let paddedCoords, stringListOfCoords, circleColour;
     if(!listOfCoords){
