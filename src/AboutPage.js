@@ -15,6 +15,10 @@ export const AboutPage = props => {
         transition : "0.7s",
         overflowY : "scroll"
     };
+
+    if(window.innerHeight > window.innerWidth){
+        style.padding = "5% 7%"
+    }
     
     return (
         <div style={style}>

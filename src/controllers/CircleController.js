@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Input from '../ui/Input';
 
 const CircleController = props => {
     const minHeightWidth = 100, maxHeightWidth = 500;
@@ -16,7 +17,7 @@ const CircleController = props => {
             <h3>Circles</h3>
             <div style={{paddingLeft : "5%"}}>
                 <label>
-                    Circle dimensions:
+                    Circle diameter:
                     <br />
                     <input 
                         type="range" name="diameter" 
@@ -41,12 +42,14 @@ const CircleController = props => {
                     Number of Mohr Circles:
                     <br />
                     <input 
-                        disabled={props.currentMode !== "multiple"}
                         style={{ color : "inherit", textAlign : "center"}}
-                        type="number" name="circles" 
+                        
+                        disabled={props.currentMode !== "multiple"}
                         min={1} max={100} 
+                        type="range" name="circles" 
                         value={props.circleCount} 
                         onChange={e => props.onChangeCircleCount(e.target.value)}/>
+                        <span>{props.circleCount}</span>
                 </label>
             </div>
 

@@ -1,14 +1,12 @@
 import React from 'react';
 
+// checkboxes: does some style handling
+
 const Input = props => {
 
-    const Style = {
+    const checkboxStyle = {
         height : "2vh",
         width : "2vh"
-    }
-
-    if(window.innerWidth < window.innerHeight){
-        
     }
 
     return (
@@ -19,8 +17,9 @@ const Input = props => {
             onChange={props.handleClick}
             min={props.inputMin}
             max={props.inputMax}
+            disabled={props.inputDisabled}
 
-            style={Style}/>
+            style={checkboxStyle}/>
     );
 }
 
