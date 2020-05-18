@@ -46,8 +46,6 @@ const SteppedCircleController = props => {
     const stringListOfCoords = paddedCoords.flat(1).join(" ");
 
     const isLandscape = window.innerWidth > window.innerHeight;
-    const extraClass = isLandscape ? Style.SideBar : Style.FullWidth;
-    
 
     return <>
         <div className={isLandscape ? Style.ButtonHolder : null}>
@@ -56,7 +54,7 @@ const SteppedCircleController = props => {
             <button className={Style.Button} onClick={handleNextStep}> &#8594;</button>
         </div>
 
-        <div className={isLandscape ? Style.CircleHolder : Style.CircleHolderMobile}>
+        <div className={isLandscape ? Style.CircleHolderDesktop : Style.CircleHolderMobile}>
             <svg width={canvasWidthHeight} height={canvasWidthHeight} version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="white"/>
                 {paddedCoords.length === 1 ? 
