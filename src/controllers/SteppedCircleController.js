@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import { connect } from 'react-redux';
 import SLG from './StepLineGenerator.js';
+import Style from './SteppedCircleController.module.css';
 
 /* 
     Most mohr circles self generate a list of points but this "stepped circle controller" is different
@@ -43,34 +44,19 @@ const SteppedCircleController = props => {
     let canvasWidthHeight = +props.circleHiWi + +props.padding;
     const paddedCoords = listOfCoords.map(el => [el[0] + (props.padding / 2), el[1] + (props.padding / 2)]);
     const stringListOfCoords = paddedCoords.flat(1).join(" ");
+
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const extraClass = isLandscape ? Style.SideBar : Style.FullWidth;
     
 
-    const circleHolderStyle = {
-        height : "90vh",
-        display : "flex",
-        flexDirection: "row",
-        flexWrap : "wrap",
-        alignItems: "center",
-        justifyContent: "center"
-    }
-
-    const buttonStyle = {
-        fontSize : "4vh"
-    }
-
-    const buttonHolderStyle = {
-        position : "fixed",
-        top : "10vh"
-    }
-
     return <>
-        <div style={buttonHolderStyle}>
-            <button style={buttonStyle} onClick={handleUndoStep}>&#8592;</button>
-            <button style={buttonStyle} onClick={handleReset}>&#8634;</button>
-            <button style={buttonStyle} onClick={handleNextStep}> &#8594;</button>
+        <div className={isLandscape ? Style.ButtonHolder : null}>
+            <button className={Style.Button} onClick={handleUndoStep}>&#8592;</button>
+            <button className={Style.Button} onClick={handleReset}>&#8634;</button>
+            <button className={Style.Button} onClick={handleNextStep}> &#8594;</button>
         </div>
 
-        <div style={circleHolderStyle}>
+        <div className={isLandscape ? Style.CircleHolder : Style.CircleHolderMobile}>
             <svg width={canvasWidthHeight} height={canvasWidthHeight} version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="white"/>
                 {paddedCoords.length === 1 ? 

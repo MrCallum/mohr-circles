@@ -20,3 +20,68 @@
   color: #61dafb;
 }
 
+h1 {
+  font-size: 4vh;
+}
+h2 {
+  font-size: 3vh;
+}
+h3 {
+  font-size: 2.5vh;
+}
+
+p, li, button, input, label {
+  font-size: 2.5vh;
+}
+
+
+
+
+
+
+@media only screen and (min-width: 1600px) and (orientation: landscape){
+  /* Large desktops */
+  
+}
+
+
+@media only screen and (min-width: 1200px) and (orientation: landscape){
+  /* Medium desktops */
+
+  h1 {
+    font-size: 3.5vh;
+  }
+  h2 {
+    font-size: 2.5vh;
+  }
+  h3 {
+    font-size: 2vh;
+  }
+  
+  p, li, button, input, label {
+    font-size: 2vh;
+  }
+  
+}
+
+@media only screen and (min-width: 1200px) and (orientation: portrait){
+  /* For iPhone 11 pro = 1242 x 2688 */
+
+}
+
+/* 
+  1000px to 1199px & potrait.
+  base
+*/
+
+@media only screen and (min-width: 601px) and (max-width : 1000px){
+  /* ipad is 768 X 1024 */
+
+}
+
+
+@media only screen and (max-width : 600px){
+
+}
+
+

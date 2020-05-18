@@ -12,7 +12,8 @@ export const AboutPage = props => {
         zIndex : 20,
         boxSizing : "border-box",
         textAlign : "left",
-        transition : "0.7s"
+        transition : "0.7s",
+        overflowY : "scroll"
     };
     
     return (

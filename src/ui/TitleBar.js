@@ -26,11 +26,12 @@ const aboutButton = {
 export const TitleBar = props => {
   const [showAboutPage, setShowAboutPage ] = useState(false);
 
+  const aboutString = window.innerWidth > window.innerHeight ? "about" : "?"
 
   return (
     <>
       <div style={barStyle}>
-        <button style={aboutButton} onClick={() => setShowAboutPage(!showAboutPage)}>[ {showAboutPage ? "close" : "about"} ]</button>
+        <button style={aboutButton} onClick={() => setShowAboutPage(!showAboutPage)}>[ {showAboutPage ? "close" : aboutString} ]</button>
         <h1>Mohr Circles</h1>
       </div>
       <AboutPage topOffset={showAboutPage ? "10vh" : "100vh"}/>

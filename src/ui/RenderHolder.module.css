@@ -1,0 +1,14 @@
+.RenderHolder {
+    padding : 1%;
+    width : 70%;
+    position : absolute;
+    right: 0;
+    top : 10vh;
+    box-sizing: border-box;
+}
+
+.FullWidth {
+    position: static;
+    padding : 5%;
+    width: 100%;
+}

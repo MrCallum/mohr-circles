@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Input from '../ui/Input';
 
 const LineController = props => {
 
@@ -9,25 +10,45 @@ const LineController = props => {
             <div style={{paddingLeft : "5%"}}>
                 <label>
                     Start in centre:
-                    <input 
-                        type="checkbox" name="center" 
-                        value={props.centreStart} 
-                        onChange={() => props.onToggleCentreStart()}/>
+                    <br />
+                    <Input 
+                        inputType="checkbox" inputName="center" 
+                        inputValue={props.centreStart} 
+                        handleClick={() => props.onToggleCentreStart()}/>
                 </label>
                 <br />
-                    <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
-                        Number of points:
-                        <br />
-                        <input
-                            disabled={props.currentMode !== "multiple"}
-                            style={{ color : "inherit"}}
-                            type="range" name="points" 
-                            min={3} max={15} 
-                            value={props.noOfPoints} 
-                            onChange={(e) => props.onChangePointCount(e.target.value)}/>
-                        <span>{props.noOfPoints}</span>
-                    </label>
+                <label>
+                    Highlight start point:
                     <br />
+                    <Input 
+                        inputType="checkbox" inputName="show start" 
+                        inputValue={props.showStartPoint} 
+                        handleClick={() => props.onToggleShowStartPoint()}/>
+                </label>
+                <br />
+                <label>
+                    Highlight end point:
+                    <br />
+                    <Input 
+                        inputType="checkbox" inputName="show end" 
+                        inputValue={props.showEndPoint} 
+                        handleClick={() => props.onToggleShowEndPoint()}/>
+                </label>
+                <br />
+               
+                <label style={{ color : props.currentMode === "multiple" ? "black" : "gray"}}>
+                    Number of points:
+                    <br />
+                    <input
+                        disabled={props.currentMode !== "multiple"}
+                        style={{ color : "inherit"}}
+                        type="range" name="points" 
+                        min={3} max={15} 
+                        value={props.noOfPoints} 
+                        onChange={(e) => props.onChangePointCount(e.target.value)}/>
+                    <span>{props.noOfPoints}</span>
+                </label>
+                <br />
                 <label>
                     Line movement distance (as % of diameter):
                     <br />
@@ -37,22 +58,6 @@ const LineController = props => {
                         value={props.lineMovePercent} 
                         onChange={(e) => props.onChangeLineMovePercent(e.target.value)}/>
                         <span>{props.lineMovePercent}%</span>
-                </label>
-                <br />
-                <label>
-                    Highlight start point:
-                    <input 
-                        type="checkbox" name="show start" 
-                        value={props.showStartPoint} 
-                        onChange={() => props.onToggleShowStartPoint()}/>
-                </label>
-                <br />
-                <label>
-                    Highlight end point:
-                    <input 
-                        type="checkbox" name="show end" 
-                        value={props.showEndPoint} 
-                        onChange={() => props.onToggleShowEndPoint()}/>
                 </label>
                 <br />
                 <label>

@@ -1,0 +1,22 @@
+.CircleHolderDesktop {
+    height : 90vh;
+    display : flex;
+    flex-direction: row;
+    flex-wrap : wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.CircleHolderMobile {
+    height : auto;
+    padding: 5vh 0;
+}
+
+.Button {
+    font-size : 4vh;
+}
+
+.ButtonHolder {
+    position : fixed;
+    top : 10vh;
+}

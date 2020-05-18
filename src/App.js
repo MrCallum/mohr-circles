@@ -22,8 +22,8 @@ function App(props) {
           <LineController />
           <CircleController />
         </ControllerHolder>
+        
         <RendererHolder>
-          
           {props.currentMode === "single" ?
             <SteppedCircleController />
             : <CircleRenderer /> }

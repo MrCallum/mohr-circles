@@ -1,12 +1,11 @@
 import React from 'react';
+import Style from './RenderHolder.module.css'
 
-const holder = {
-    padding : "1%",
-    width : "80%",
-    position : "absolute",
-    right: 0,
-    top : "10vh",
-    boxSizing: "border-box"
-}
+export const RendererHolder = props => {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const extraClass = isLandscape ? null : Style.FullWidth;
 
-export const RendererHolder = props => <div style={holder}>{props.children}</div>;
+    return(
+        <div className={[Style.RenderHolder, extraClass].join(" ")}>{props.children}</div>
+    );
+};
