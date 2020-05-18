@@ -17,6 +17,9 @@ const Input = props => {
             name={props.inputName}
             value={props.inputValue}
             onChange={props.handleClick}
+            min={props.inputMin}
+            max={props.inputMax}
+
             style={Style}/>
     );
 }
