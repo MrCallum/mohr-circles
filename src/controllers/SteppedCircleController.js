@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import SLG from './StepLineGenerator.js';
 import Style from './SteppedCircleController.module.css';
@@ -18,13 +18,26 @@ const SteppedCircleController = props => {
     }
     
     const [listOfCoords, setListOfCoords] = useState(SLG.addPointToList([], circleConfig));
-
+    const [lastUsedDiam, setLastUsedDiam] = useState(circleConfig.circleDiam);
     
 
     const handleNextStep = () => {
         let currentList = [...listOfCoords];
+        if(lastUsedDiam !== circleConfig.circleDiam){
+            // circle diam has changed. check if current point is inside circle
+            const currentPoint = currentList[Math.max(currentList.length - 1, 0)];
+            if(!SLG.checkInsideCircle(circleConfig.circleDiam, currentPoint)){
+                console.log("Circle diam changed and point was outside circle. Resetting");
+                setLastUsedDiam(circleConfig.circleDiam);
+                handleReset();
+                return;
+            } 
+            // otherwise, continue
+        }
+
         let newCoords = SLG.addPointToList(currentList, circleConfig);
         setListOfCoords(newCoords);
+        setLastUsedDiam(circleConfig.circleDiam);
     }
 
     const handleUndoStep = () => {
